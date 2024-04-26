@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <title>La Torre di Hanoi</title>
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="mystyle.css">
+    <style>
+        body {
+            background-color: #6495ED; /* Blue background color */
+            color: white; /* White text color */
+            position: relative;
+            min-height: 100vh;
+            margin: 0;
+            padding-bottom: 40px; /* Aggiunto spazio inferiore per il footer */
+        }
+        
+        .pole {
+            display: inline-block;
+            margin: 0 20px;
+            vertical-align: top;
+        }
+        
+        .disk {
+            width: 50px;
+            height: 20px;
+            background-color: blue;
+            margin: 5px 0;
+        }
+
+        .confetti {
+            position: absolute;
+            background-color: #FFD700; /* Gold */
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            animation: confetti-fall linear infinite both;
+            transform-origin: 0 0;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+
+        .loseMessage {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            padding: 10px;
+            text-align: center;
+            background-color: rgba(0, 0, 0, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <h1 style="text-align: center;">La Torre di Hanoi</h1>
+    <main>
+        <div id="game" style="text-align: center;">
+            <div class="pole" id="pole1"></div>
+            <div class="pole" id="pole2"></div>
+            <div class="pole" id="pole3"></div>
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button onclick="moveDisk(1)">Prendi dal palo 1</button>
+            <button onclick="moveDisk(2)">Prendi dal palo 2</button>
+            <button onclick="moveDisk(3)">Prendi dal palo 3</button>
+        </div>
+        <div id="winMessage" style="display: none; text-align: center; margin-top: 20px;">
+            <h2>Hai Vinto!</h2>
+            <p>Mosse effettuate: <span id="moveCount">0</span></p>
+        </div>
+        <div id="gameInfo" style="text-align: center; margin-top: 20px;">
+            <h2>Storia del gioco:</h2>
+            <p>La Torre di Hanoi è un famoso gioco matematico e di logica. Si dice che sia stato inventato da un monaco nel tempio di Benares in India. Il gioco è composto da tre paletti e un certo numero di dischi di diverse dimensioni che possono essere spostati da un piolo all'altro. L'obiettivo del gioco è spostare tutti i dischi dal piolo di partenza al piolo di destinazione, rispettando due semplici regole: non si possono spostare più di un disco alla volta e un disco più grande non può essere posto sopra un disco più piccolo.</p>
+        </div>
+    </main>
+    <footer>
+        <center><p>&copy; Antonio Salvia</p></center>
+        <div class="loseMessage" id="loseMessage" style="display: none;">
+            <h2>Hai Perso!</h2>
+            <p>Hai superato il limite di mosse consentito.</p>
+            <button onclick="restartGame()">Ricomincia</button>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> <!-- Integrazione Javascript Bootstrap -->
+    <script>
+        const poles = [[4, 3, 2, 1], [], []]; // Inizializziamo il gioco con tutti i dischi sul primo palo
+        const poleElements = document.querySelectorAll('.pole');
+        let moveCount = 0;
+
+        function drawPoles() {
+            poleElements.forEach((poleElement, index) => {
+                const pole = poles[index];
+                poleElement.innerHTML = ''; // Pulisce il contenuto del palo
+                pole.forEach(diskSize => {
+                    const diskElement = document.createElement('div');
+                    diskElement.className = 'disk';
+                    diskElement.style.width = `${diskSize * 20}px`; // La larghezza dei dischi dipende dalla dimensione
+                    poleElement.appendChild(diskElement);
+                });
+            });
+        }
+
+        function moveDisk(fromPole) {
+            const toPole = (fromPole % 3) + 1; // Calcola il palo di destinazione
+            const disk = poles[fromPole - 1].pop(); // Rimuove il disco dal palo di partenza
+            if (disk) {
+                if (poles[toPole - 1].length === 0 || disk < poles[toPole - 1][poles[toPole - 1].length - 1]) {
+                    poles[toPole - 1].push(disk); // Aggiunge il disco al palo di destinazione
+                    moveCount++; // Incrementa il contatore delle mosse
+                    drawPoles(); // Ridisegna i pali
+                    checkWinCondition(); // Controlla se è stata soddisfatta la condizione di vittoria
+                    checkLoseCondition(); // Controlla se è stata soddisfatta la condizione di sconfitta
+                } else {
+                    alert('Non puoi mettere un disco più grande sopra un disco più piccolo!');
+                    poles[fromPole - 1].push(disk); // Riposiziona il disco nel palo di partenza
+                }
+            } else {
+                alert('Non ci sono dischi su questo palo!');
+            }
+        }
+
+        function checkWinCondition() {
+            if (poles[2].length === 4 || poles[1].length === 4) {
+                document.getElementById('winMessage').style.display = 'block'; // Mostra il messaggio di vittoria
+                document.getElementById('moveCount').textContent = moveCount; // Visualizza il numero di mosse effettuate
+                showConfetti(); // Mostra i coriandoli
+            }
+        }
+
+        function checkLoseCondition() {
+            if (moveCount > 15) {
+                document.getElementById('loseMessage').style.display = 'block'; // Mostra il messaggio di sconfitta
+            }
+        }
+
+        function showConfetti() {
+            for (let i = 0; i < 100; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'confetti';
+                confetti.style.left = Math.random() * window.innerWidth + 'px';
+                confetti.style.animationDuration = Math.random() * 3 + 2 + 's';
+                confetti.style.animationDelay = Math.random() * 2 + 's';
+                document.body.appendChild(confetti);
+            }
+        }
+
+        function restartGame() {
+            location.reload(); // Ricarica la pagina per iniziare una nuova partita
+        }
+
+        drawPoles(); // Disegna i pali iniziali
+    </script>
+</body>
+</html>
