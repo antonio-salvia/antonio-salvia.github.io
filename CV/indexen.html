@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Portfolio</title>
+    <body style="background-color:yellow;">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body>
+    <nav>
+        <div class="logo"> Logo</div>
+        <img src="io.jpeg" height="200" class="profile-image" alt="me">
+        <ul class="nav-links">
+            <li><a href="#about">About Me</a></li>
+            <li><a href="#skills">Skills</a></li>
+            <li><a href="#projects">Projects</a></li>
+            <li><a href="#contact">Contact</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Welcome to my Portfolio</h1>
+        <p>Here I showcase my skills, projects, and contacts.</p>
+    </header>
+
+    <section id="about">
+        <h2>About Me</h2>
+        <div class="about-content">
+            <p>Hello, I'm Antonio Salvia. I live in Savoia di Lucania and I'm passionate about technology and sports. Born in Potenza on September 5, 2006. My passion lies in the world of programming and software development where I currently do programming. I'm studying Java, JavaScript, HTML, and CSS.
+            I also love nature and sports. Basketball is one of my passions, and I spend hours perfecting my shots and skills on the court. Feeling the ball touch the rim is an indescribable sensation, a mix of adrenaline and gratification that always drives me to give my best.
+            I'm a guy who tries to balance passion and fun in everything I do.</p>
+            <div class="col-md-6 offset-md-3 text-center">
+                <h2>Curriculum</h2>
+                <a href="file:///C:/Users/Donato/Downloads/AntonioSalvia.pdf" class="btn btn-primary mt-3">View</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <h2>Skills</h2>
+        <ul class="skills-list">
+            <li>HTML</li>
+            <li>CSS</li>
+            <li>JavaScript</li>
+            <li>Java</li>
+            <li>C</li>
+            <li>C++</li>
+            <li>Linux</li>
+            <li>Microsoft Office Suite</li>
+        </ul>
+    </section>
+
+    <section id="projects">
+        <h2>Projects</h2>
+        <div class="project">
+            <h3>Projects</h3>
+            <p>In these files, there are my projects done so far.</p>
+            <p>In this website, the Tower of Hanoi game has been replicated where you had to solve the puzzle.</p>
+            <a href="file:///C:/Users/Donato/Desktop/CV/hanoi.html" class="btn btn-primary mt-3">View Hanoi</a>
+            <p>In this website, I talk about the history of the NBA where I narrate the most important years.</p>
+            <a href="file:///C:/Users/Donato/Desktop/CV/nba.html" class="btn btn-primary mt-3">View NBA</a>
+            <p>In this website, I talk about my favorite car and I talked about the three BMW cars.</p>
+            <a href="file:///C:/Users/Donato/Desktop/CV/bmw.html"  class="btn btn-primary mt-3">View BMW</a>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>Contact</h2>
+        <form id="contact-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" required></textarea>
+            <button type="submit">Send Message</button>
+        </form>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 Antonio Salvia</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
